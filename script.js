@@ -2,34 +2,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
-    const navbar = document.querySelector('.navbar');
     
-    // Debug: Check if elements exist
-    console.log("Hamburger:", hamburger);
-    console.log("Nav Menu:", navMenu);
-    console.log("Navbar:", navbar);
-    
-    // Mobile Navigation Toggle
+    // Toggle mobile menu
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("Hamburger clicked!");
-            
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
             
-            // Prevent body scroll when menu is open
-            if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-            
-            console.log("Menu active:", navMenu.classList.contains('active'));
+            // Toggle body scroll
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
     }
     
-    // Close mobile menu when clicking on a link
+    // Close menu when clicking on links
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.addEventListener('click', () => {
             if (hamburger && navMenu) {
@@ -51,8 +37,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Enhanced Navbar Scroll Effect
+    // Navbar scroll effect
     window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
         if (window.scrollY > 100) {
             navbar.classList.add('scrolled');
         } else {
@@ -66,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                const offsetTop = target.offsetTop - 80; // Account for fixed navbar
+                const offsetTop = target.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth',
@@ -74,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Animated counter for community stats
     function animateCounter(element, target, duration = 2000) {
         const hasPlus = target.toString().includes('+');
@@ -165,14 +152,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const liveSessionBtn = document.getElementById('liveSessionBtn');
     const closeBtn = document.querySelector('.modal-close');
     
-    console.log("Modal:", modal);
-    console.log("Live Session Btn:", liveSessionBtn);
-    console.log("Close Btn:", closeBtn);
-    
     if (liveSessionBtn && modal) {
         liveSessionBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("Opening modal");
             modal.style.display = 'block';
         });
     }
@@ -180,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeBtn && modal) {
         closeBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("Closing modal");
             modal.style.display = 'none';
         });
     }
@@ -275,38 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 opacity: 0;
             }
         }
-        
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                left: -100%;
-                top: 70px;
-                flex-direction: column;
-                background-color: white;
-                width: 100%;
-                text-align: center;
-                transition: 0.3s;
-                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
-                padding: 2rem 0;
-                z-index: 999;
-            }
-            
-            .nav-menu.active {
-                left: 0;
-            }
-            
-            .hamburger.active span:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .hamburger.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            
-            .hamburger.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-        }
     `;
     document.head.appendChild(style);
     
@@ -341,21 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
             element.style.transform = `translateY(${scrolled * speed}px)`;
         });
     }, 100));
-    
-    // Add loading animation for external links
-    document.querySelectorAll('a[href^="http"]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = this.href;
-            const loadingAnimation = document.createElement('div');
-            loadingAnimation.classList.add('loading-animation');
-            this.appendChild(loadingAnimation);
-            
-            setTimeout(() => {
-                window.location.href = target;
-            }, 500); // Duration of loading animation
-        });
-    });
     
     // Initialize animations on page load
     document.querySelectorAll('.about-card, .session-card, .community-stats, .bio-card, .main-reward, .stat-card, .community-card').forEach(el => {
